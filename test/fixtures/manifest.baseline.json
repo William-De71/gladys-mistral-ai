@@ -1,0 +1,136 @@
+{
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "options": []
+    },
+    {
+      "key": "privacy",
+      "type": "section",
+      "options": []
+    },
+    {
+      "key": "api_key",
+      "type": "secret",
+      "options": []
+    },
+    {
+      "key": "model",
+      "type": "select",
+      "options": [
+        "mistral-large-4",
+        "mistral-small-latest",
+        "ministral-14b-latest",
+        "ministral-8b-latest",
+        "ministral-3b-latest",
+        "custom"
+      ]
+    },
+    {
+      "key": "fast_model",
+      "type": "select",
+      "options": [
+        "ministral-8b-latest",
+        "ministral-3b-latest",
+        "ministral-14b-latest",
+        "mistral-small-latest",
+        "mistral-large-4",
+        "custom"
+      ]
+    },
+    {
+      "key": "custom_model",
+      "type": "string",
+      "options": []
+    },
+    {
+      "key": "reasoning",
+      "type": "select",
+      "options": ["none", "low", "medium", "high"]
+    },
+    {
+      "key": "max_tokens",
+      "type": "number",
+      "options": []
+    }
+  ],
+  "actions": ["test_connection"],
+  "widgets": [
+    {
+      "key": "usage",
+      "settings": []
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "error",
+      "fields": [
+        {
+          "key": "kind",
+          "options": ["auth", "rate_limit", "model", "unreachable", "timeout", "server"]
+        }
+      ],
+      "variables": [
+        {
+          "key": "kind",
+          "type": "string"
+        },
+        {
+          "key": "message",
+          "type": "string"
+        },
+        {
+          "key": "use",
+          "type": "string"
+        },
+        {
+          "key": "model",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "key": "recovered",
+      "fields": [],
+      "variables": [
+        {
+          "key": "down_minutes",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "web_search",
+      "fields": [
+        {
+          "key": "question",
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "instructions",
+          "type": "string",
+          "required": false
+        },
+        {
+          "key": "premium",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "key": "answer",
+          "type": "string"
+        },
+        {
+          "key": "sources",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

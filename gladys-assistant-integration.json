@@ -1,0 +1,649 @@
+{
+  "manifest_version": 1,
+  "type": "ai",
+  "name": "Mistral AI",
+  "description": {
+    "en": "Run the Gladys assistant on Mistral AI, the French AI, with your own API key.",
+    "fr": "Faites tourner l’assistant Gladys sur Mistral AI, l’IA française, avec votre clé d’API.",
+    "de": "Betreibe den Gladys-Assistenten mit Mistral AI, der KI aus Frankreich, und deinem API-Schlüssel.",
+    "es": "Haga funcionar el asistente de Gladys con Mistral AI, la IA francesa, y su clave de API."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-mistral-ai:0.1.0",
+  "gladys_version": ">=5.3.0",
+  "categories": ["assistants"],
+  "keywords": [
+    "mistral",
+    "le chat",
+    "ministral",
+    "llm",
+    "chatbot",
+    "ia",
+    "ki",
+    "sovereign",
+    "europe"
+  ],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-mistral-ai/main/cover.jpg",
+  "transports": ["cloud"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Getting started",
+        "fr": "Pour commencer",
+        "de": "Erste Schritte",
+        "es": "Primeros pasos"
+      },
+      "description": {
+        "en": "Mistral answers through La Plateforme, its API hosted in Europe: create an API key on console.mistral.ai (free Experiment plan or paid Scale plan, billed by Mistral), paste it below, then select this integration in Settings, Artificial Intelligence. Mistral then sees every chat message, the history, the state of the devices it reads and the chat images.",
+        "fr": "Mistral répond via La Plateforme, son API hébergée en Europe : créez une clé d’API sur console.mistral.ai (offre gratuite Experiment ou payante Scale, facturée par Mistral), collez-la ci-dessous, puis choisissez cette intégration dans Paramètres, Intelligence artificielle. Mistral voit alors chaque message du chat, l’historique, l’état des appareils qu’il consulte et les images du chat.",
+        "de": "Mistral antwortet über La Plateforme, seine in Europa gehostete API: Erstelle einen API-Schlüssel auf console.mistral.ai (kostenloser Tarif Experiment oder bezahlter Tarif Scale, von Mistral abgerechnet), füge ihn unten ein und wähle dann diese Integration unter Einstellungen, Künstliche Intelligenz. Mistral sieht dann jede Chat-Nachricht, den Verlauf, den Zustand der Geräte, die es abfragt, und die Bilder des Chats.",
+        "es": "Mistral responde a través de La Plateforme, su API alojada en Europa: cree una clave de API en console.mistral.ai (plan gratuito Experiment o de pago Scale, facturado por Mistral), péguela abajo y luego elija esta integración en Ajustes, Inteligencia artificial. Mistral ve entonces cada mensaje del chat, el historial, el estado de los dispositivos que consulta y las imágenes del chat."
+      },
+      "links": [
+        {
+          "url": "https://console.mistral.ai/api-keys",
+          "label": {
+            "en": "Mistral API keys",
+            "fr": "Clés d’API Mistral",
+            "de": "Mistral-API-Schlüssel",
+            "es": "Claves de API de Mistral"
+          }
+        },
+        {
+          "url": "https://github.com/William-De71/gladys-mistral-ai/blob/main/docs/en.md",
+          "label": {
+            "en": "Integration documentation",
+            "fr": "Documentation de l’intégration",
+            "de": "Dokumentation der Integration",
+            "es": "Documentación de la integración"
+          }
+        }
+      ]
+    },
+    {
+      "key": "privacy",
+      "type": "section",
+      "label": {
+        "en": "Free plan and privacy",
+        "fr": "Offre gratuite et confidentialité",
+        "de": "Kostenloser Tarif und Datenschutz",
+        "es": "Plan gratuito y privacidad"
+      },
+      "description": {
+        "en": "On the free Experiment plan, Mistral may use the requests to improve its models and allows about one request per second: check the privacy settings of your organization in the Mistral console. The Scale plan does not train on your data.",
+        "fr": "Avec l’offre gratuite Experiment, Mistral peut utiliser les requêtes pour améliorer ses modèles et n’accepte qu’environ une requête par seconde : vérifiez les réglages de confidentialité de votre organisation dans la console Mistral. L’offre Scale n’entraîne pas ses modèles sur vos données.",
+        "de": "Im kostenlosen Tarif Experiment darf Mistral die Anfragen zur Verbesserung seiner Modelle nutzen und erlaubt nur etwa eine Anfrage pro Sekunde: Prüfe die Datenschutzeinstellungen deiner Organisation in der Mistral-Konsole. Der Tarif Scale trainiert nicht mit deinen Daten.",
+        "es": "Con el plan gratuito Experiment, Mistral puede usar las solicitudes para mejorar sus modelos y solo acepta una solicitud por segundo aproximadamente: compruebe los ajustes de privacidad de su organización en la consola de Mistral. El plan Scale no entrena con sus datos."
+      }
+    },
+    {
+      "key": "api_key",
+      "type": "secret",
+      "label": {
+        "en": "Mistral API key",
+        "fr": "Clé d’API Mistral",
+        "de": "Mistral-API-Schlüssel",
+        "es": "Clave de API de Mistral"
+      },
+      "description": {
+        "en": "Created on console.mistral.ai, in API Keys. It stays in Gladys and is never shown again nor logged.",
+        "fr": "Créée sur console.mistral.ai, dans Clés d’API. Elle reste dans Gladys, n’est plus jamais affichée ni journalisée.",
+        "de": "Auf console.mistral.ai unter API-Schlüssel erstellt. Er bleibt in Gladys und wird nie wieder angezeigt oder protokolliert.",
+        "es": "Creada en console.mistral.ai, en Claves de API. Se queda en Gladys y nunca se vuelve a mostrar ni se registra."
+      },
+      "required": true
+    },
+    {
+      "key": "model",
+      "type": "select",
+      "label": {
+        "en": "Chat model",
+        "fr": "Modèle du chat",
+        "de": "Chat-Modell",
+        "es": "Modelo del chat"
+      },
+      "description": {
+        "en": "Answers the chat, creates the scenes, writes the weekly digest and runs the web search action. Large 4 is the most capable, Small 4 faster and cheaper; the Ministral models are small and quick but less reliable to create scenes.",
+        "fr": "Répond au chat, crée les scènes, rédige le résumé hebdomadaire et fait l’action de recherche web. Large 4 est le plus capable, Small 4 plus rapide et moins cher ; les Ministral sont petits et rapides mais moins fiables pour créer des scènes.",
+        "de": "Beantwortet den Chat, erstellt die Szenen, schreibt den Wochenrückblick und führt die Websuche aus. Large 4 ist am leistungsfähigsten, Small 4 schneller und günstiger; die Ministral-Modelle sind klein und schnell, aber beim Erstellen von Szenen weniger zuverlässig.",
+        "es": "Responde al chat, crea las escenas, redacta el resumen semanal y realiza la búsqueda web. Large 4 es el más capaz, Small 4 más rápido y barato; los Ministral son pequeños y rápidos pero menos fiables para crear escenas."
+      },
+      "required": true,
+      "default": "mistral-large-4",
+      "options": [
+        {
+          "value": "mistral-large-4",
+          "label": {
+            "en": "Mistral Large 4 (recommended)",
+            "fr": "Mistral Large 4 (recommandé)",
+            "de": "Mistral Large 4 (empfohlen)",
+            "es": "Mistral Large 4 (recomendado)"
+          }
+        },
+        {
+          "value": "mistral-small-latest",
+          "label": {
+            "en": "Mistral Small 4",
+            "fr": "Mistral Small 4",
+            "de": "Mistral Small 4",
+            "es": "Mistral Small 4"
+          }
+        },
+        {
+          "value": "ministral-14b-latest",
+          "label": {
+            "en": "Ministral 3 14B",
+            "fr": "Ministral 3 14B",
+            "de": "Ministral 3 14B",
+            "es": "Ministral 3 14B"
+          }
+        },
+        {
+          "value": "ministral-8b-latest",
+          "label": {
+            "en": "Ministral 3 8B",
+            "fr": "Ministral 3 8B",
+            "de": "Ministral 3 8B",
+            "es": "Ministral 3 8B"
+          }
+        },
+        {
+          "value": "ministral-3b-latest",
+          "label": {
+            "en": "Ministral 3 3B",
+            "fr": "Ministral 3 3B",
+            "de": "Ministral 3 3B",
+            "es": "Ministral 3 3B"
+          }
+        },
+        {
+          "value": "custom",
+          "label": {
+            "en": "Other model (id below)",
+            "fr": "Autre modèle (identifiant ci-dessous)",
+            "de": "Anderes Modell (ID unten)",
+            "es": "Otro modelo (identificador abajo)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "fast_model",
+      "type": "select",
+      "label": {
+        "en": "Router model",
+        "fr": "Modèle du routeur",
+        "de": "Router-Modell",
+        "es": "Modelo del enrutador"
+      },
+      "description": {
+        "en": "Sorts every chat message before the answer, and must reply within 20 seconds: a small, fast model fits best.",
+        "fr": "Trie chaque message du chat avant la réponse, et doit répondre en moins de 20 secondes : un petit modèle rapide convient le mieux.",
+        "de": "Ordnet jede Chat-Nachricht vor der Antwort ein und muss innerhalb von 20 Sekunden antworten: Ein kleines, schnelles Modell passt am besten.",
+        "es": "Clasifica cada mensaje del chat antes de la respuesta y debe contestar en menos de 20 segundos: lo mejor es un modelo pequeño y rápido."
+      },
+      "required": true,
+      "default": "ministral-8b-latest",
+      "options": [
+        {
+          "value": "ministral-8b-latest",
+          "label": {
+            "en": "Ministral 3 8B (recommended)",
+            "fr": "Ministral 3 8B (recommandé)",
+            "de": "Ministral 3 8B (empfohlen)",
+            "es": "Ministral 3 8B (recomendado)"
+          }
+        },
+        {
+          "value": "ministral-3b-latest",
+          "label": {
+            "en": "Ministral 3 3B",
+            "fr": "Ministral 3 3B",
+            "de": "Ministral 3 3B",
+            "es": "Ministral 3 3B"
+          }
+        },
+        {
+          "value": "ministral-14b-latest",
+          "label": {
+            "en": "Ministral 3 14B",
+            "fr": "Ministral 3 14B",
+            "de": "Ministral 3 14B",
+            "es": "Ministral 3 14B"
+          }
+        },
+        {
+          "value": "mistral-small-latest",
+          "label": {
+            "en": "Mistral Small 4",
+            "fr": "Mistral Small 4",
+            "de": "Mistral Small 4",
+            "es": "Mistral Small 4"
+          }
+        },
+        {
+          "value": "mistral-large-4",
+          "label": {
+            "en": "Mistral Large 4",
+            "fr": "Mistral Large 4",
+            "de": "Mistral Large 4",
+            "es": "Mistral Large 4"
+          }
+        },
+        {
+          "value": "custom",
+          "label": {
+            "en": "Other model (id below)",
+            "fr": "Autre modèle (identifiant ci-dessous)",
+            "de": "Anderes Modell (ID unten)",
+            "es": "Otro modelo (identificador abajo)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "custom_model",
+      "type": "string",
+      "label": {
+        "en": "Other model id",
+        "fr": "Identifiant de l’autre modèle",
+        "de": "ID des anderen Modells",
+        "es": "Identificador del otro modelo"
+      },
+      "description": {
+        "en": "Only for “Other model”: the exact API id of a model of La Plateforme (a newer model, a fine-tune…). It must call tools.",
+        "fr": "Seulement pour « Autre modèle » : l’identifiant exact d’un modèle de La Plateforme (un modèle plus récent, un modèle affiné…). Il doit savoir appeler des outils.",
+        "de": "Nur für „Anderes Modell“: die genaue API-ID eines Modells von La Plateforme (ein neueres Modell, ein Fine-Tune…). Es muss Werkzeuge aufrufen können.",
+        "es": "Solo para «Otro modelo»: el identificador exacto de un modelo de La Plateforme (un modelo más reciente, un ajuste fino…). Debe poder llamar a herramientas."
+      },
+      "placeholder": {
+        "en": "mistral-medium-latest",
+        "fr": "mistral-medium-latest",
+        "de": "mistral-medium-latest",
+        "es": "mistral-medium-latest"
+      },
+      "required": false
+    },
+    {
+      "key": "reasoning",
+      "type": "select",
+      "label": {
+        "en": "Reasoning of the chat model",
+        "fr": "Réflexion du modèle du chat",
+        "de": "Nachdenken des Chat-Modells",
+        "es": "Razonamiento del modelo del chat"
+      },
+      "description": {
+        "en": "More reasoning gives better scenes but slower answers. Large 4 cannot turn it off, Small 4 knows only off and high, the Ministral models do not reason.",
+        "fr": "Plus de réflexion donne de meilleures scènes mais des réponses plus lentes. Large 4 ne peut pas la couper, Small 4 ne connaît que désactivée et élevée, les Ministral ne réfléchissent pas.",
+        "de": "Mehr Nachdenken ergibt bessere Szenen, aber langsamere Antworten. Large 4 kann es nicht abschalten, Small 4 kennt nur aus und hoch, die Ministral-Modelle denken nicht nach.",
+        "es": "Más razonamiento da mejores escenas pero respuestas más lentas. Large 4 no puede desactivarlo, Small 4 solo conoce desactivado y alto, los Ministral no razonan."
+      },
+      "required": true,
+      "default": "medium",
+      "options": [
+        {
+          "value": "none",
+          "label": {
+            "en": "Off",
+            "fr": "Désactivée",
+            "de": "Aus",
+            "es": "Desactivado"
+          }
+        },
+        {
+          "value": "low",
+          "label": {
+            "en": "Low",
+            "fr": "Faible",
+            "de": "Niedrig",
+            "es": "Bajo"
+          }
+        },
+        {
+          "value": "medium",
+          "label": {
+            "en": "Medium (recommended)",
+            "fr": "Moyenne (recommandé)",
+            "de": "Mittel (empfohlen)",
+            "es": "Medio (recomendado)"
+          }
+        },
+        {
+          "value": "high",
+          "label": {
+            "en": "High",
+            "fr": "Élevée",
+            "de": "Hoch",
+            "es": "Alto"
+          }
+        }
+      ]
+    },
+    {
+      "key": "max_tokens",
+      "type": "number",
+      "label": {
+        "en": "Maximum answer length (tokens)",
+        "fr": "Longueur maximale d’une réponse (jetons)",
+        "de": "Maximale Antwortlänge (Tokens)",
+        "es": "Longitud máxima de una respuesta (tokens)"
+      },
+      "description": {
+        "en": "The reasoning counts in it too. Raise it if the logs say an answer hit max_tokens.",
+        "fr": "La réflexion compte aussi dedans. Augmentez-la si les journaux indiquent qu’une réponse a atteint max_tokens.",
+        "de": "Das Nachdenken zählt ebenfalls dazu. Erhöhe den Wert, wenn die Protokolle melden, dass eine Antwort max_tokens erreicht hat.",
+        "es": "El razonamiento también cuenta. Auméntela si los registros indican que una respuesta ha alcanzado max_tokens."
+      },
+      "required": false,
+      "default": 8000,
+      "min": 1024,
+      "max": 32000
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "timeout_seconds": 60,
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Asks each chosen model for a one-word answer and shows its time. Spends a few tokens.",
+        "fr": "Demande une réponse d’un mot à chaque modèle choisi et affiche son temps. Consomme quelques jetons.",
+        "de": "Bittet jedes gewählte Modell um eine Antwort aus einem Wort und zeigt die Zeit an. Verbraucht ein paar Tokens.",
+        "es": "Pide una respuesta de una palabra a cada modelo elegido y muestra su tiempo. Consume algunos tokens."
+      }
+    }
+  ],
+  "widgets": [
+    {
+      "key": "usage",
+      "icon": "cpu",
+      "label": {
+        "en": "Mistral usage",
+        "fr": "Conso Mistral",
+        "de": "Mistral-Verbrauch",
+        "es": "Consumo Mistral"
+      },
+      "description": {
+        "en": "Requests and tokens of the assistant, per day and month, and the last error.",
+        "fr": "Requêtes et jetons de l’assistant, par jour et par mois, et la dernière erreur.",
+        "de": "Anfragen und Tokens des Assistenten pro Tag und Monat sowie der letzte Fehler.",
+        "es": "Solicitudes y tokens del asistente, por día y mes, y el último error."
+      }
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "error",
+      "label": {
+        "en": "Mistral: the assistant fails",
+        "fr": "Mistral : l’assistant est en erreur",
+        "de": "Mistral: Der Assistent schlägt fehl",
+        "es": "Mistral: el asistente falla"
+      },
+      "description": {
+        "en": "Mistral stopped answering: key refused, rate limit, model unavailable, API unreachable. Once per failure, not for every message.",
+        "fr": "Mistral ne répond plus : clé refusée, limite de requêtes, modèle indisponible, API injoignable. Une fois par panne, pas à chaque message.",
+        "de": "Mistral antwortet nicht mehr: Schlüssel abgelehnt, Anfragelimit, Modell nicht verfügbar, API nicht erreichbar. Einmal pro Ausfall, nicht bei jeder Nachricht.",
+        "es": "Mistral ya no responde: clave rechazada, límite de solicitudes, modelo no disponible, API inaccesible. Una vez por fallo, no en cada mensaje."
+      },
+      "fields": [
+        {
+          "key": "kind",
+          "type": "select",
+          "required": false,
+          "label": {
+            "en": "Only for",
+            "fr": "Seulement pour",
+            "de": "Nur bei",
+            "es": "Solo para"
+          },
+          "description": {
+            "en": "Leave empty for any failure.",
+            "fr": "Laissez vide pour toute panne.",
+            "de": "Leer lassen für jeden Ausfall.",
+            "es": "Déjelo vacío para cualquier fallo."
+          },
+          "options": [
+            {
+              "value": "auth",
+              "label": {
+                "en": "Key refused",
+                "fr": "Clé refusée",
+                "de": "Schlüssel abgelehnt",
+                "es": "Clave rechazada"
+              }
+            },
+            {
+              "value": "rate_limit",
+              "label": {
+                "en": "Rate limit",
+                "fr": "Limite de requêtes",
+                "de": "Anfragelimit",
+                "es": "Límite de solicitudes"
+              }
+            },
+            {
+              "value": "model",
+              "label": {
+                "en": "Model unavailable",
+                "fr": "Modèle indisponible",
+                "de": "Modell nicht verfügbar",
+                "es": "Modelo no disponible"
+              }
+            },
+            {
+              "value": "unreachable",
+              "label": {
+                "en": "API unreachable",
+                "fr": "API injoignable",
+                "de": "API nicht erreichbar",
+                "es": "API inaccesible"
+              }
+            },
+            {
+              "value": "timeout",
+              "label": {
+                "en": "Too slow",
+                "fr": "Trop lent",
+                "de": "Zu langsam",
+                "es": "Demasiado lento"
+              }
+            },
+            {
+              "value": "server",
+              "label": {
+                "en": "Mistral error",
+                "fr": "Erreur Mistral",
+                "de": "Mistral-Fehler",
+                "es": "Error de Mistral"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "kind",
+          "type": "string",
+          "label": {
+            "en": "Kind of failure",
+            "fr": "Type de panne",
+            "de": "Art des Ausfalls",
+            "es": "Tipo de fallo"
+          }
+        },
+        {
+          "key": "message",
+          "type": "string",
+          "label": {
+            "en": "Error message",
+            "fr": "Message d’erreur",
+            "de": "Fehlermeldung",
+            "es": "Mensaje de error"
+          }
+        },
+        {
+          "key": "use",
+          "type": "string",
+          "label": {
+            "en": "Request (chat, router, digest, web)",
+            "fr": "Requête (chat, router, digest, web)",
+            "de": "Anfrage (chat, router, digest, web)",
+            "es": "Solicitud (chat, router, digest, web)"
+          }
+        },
+        {
+          "key": "model",
+          "type": "string",
+          "label": {
+            "en": "Model",
+            "fr": "Modèle",
+            "de": "Modell",
+            "es": "Modelo"
+          }
+        }
+      ]
+    },
+    {
+      "key": "recovered",
+      "label": {
+        "en": "Mistral: the assistant answers again",
+        "fr": "Mistral : l’assistant répond de nouveau",
+        "de": "Mistral: Der Assistent antwortet wieder",
+        "es": "Mistral: el asistente vuelve a responder"
+      },
+      "description": {
+        "en": "The first answer after a failure.",
+        "fr": "La première réponse après une panne.",
+        "de": "Die erste Antwort nach einem Ausfall.",
+        "es": "La primera respuesta tras un fallo."
+      },
+      "variables": [
+        {
+          "key": "down_minutes",
+          "type": "number",
+          "label": {
+            "en": "Minutes of failure",
+            "fr": "Minutes de panne",
+            "de": "Minuten des Ausfalls",
+            "es": "Minutos de fallo"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "web_search",
+      "timeout_seconds": 90,
+      "label": {
+        "en": "Mistral: ask with web search",
+        "fr": "Mistral : demander avec recherche web",
+        "de": "Mistral: mit Websuche fragen",
+        "es": "Mistral: preguntar con búsqueda web"
+      },
+      "description": {
+        "en": "Mistral searches the web and answers briefly: news, traffic, an event. Use the answer in a message or a spoken notification.",
+        "fr": "Mistral cherche sur le web et répond brièvement : actualités, trafic, un événement. Utilisez la réponse dans un message ou une annonce vocale.",
+        "de": "Mistral sucht im Web und antwortet kurz: Nachrichten, Verkehr, ein Ereignis. Nutze die Antwort in einer Nachricht oder einer Sprachansage.",
+        "es": "Mistral busca en la web y responde brevemente: noticias, tráfico, un evento. Use la respuesta en un mensaje o un aviso de voz."
+      },
+      "fields": [
+        {
+          "key": "question",
+          "type": "string",
+          "required": true,
+          "label": {
+            "en": "Question",
+            "fr": "Question",
+            "de": "Frage",
+            "es": "Pregunta"
+          },
+          "description": {
+            "en": "Scene variables are allowed.",
+            "fr": "Les variables de scène sont acceptées.",
+            "de": "Szenenvariablen sind erlaubt.",
+            "es": "Se admiten variables de escena."
+          },
+          "placeholder": {
+            "en": "What are the main news today in France?",
+            "fr": "Quelles sont les principales actualités du jour en France ?",
+            "de": "Was sind heute die wichtigsten Nachrichten in Deutschland?",
+            "es": "¿Cuáles son las principales noticias de hoy en España?"
+          }
+        },
+        {
+          "key": "instructions",
+          "type": "string",
+          "required": false,
+          "label": {
+            "en": "Extra instructions",
+            "fr": "Consignes en plus",
+            "de": "Zusätzliche Anweisungen",
+            "es": "Instrucciones adicionales"
+          },
+          "description": {
+            "en": "How to answer: length, tone, what to leave out.",
+            "fr": "Comment répondre : longueur, ton, ce qu’il faut laisser de côté.",
+            "de": "Wie geantwortet werden soll: Länge, Ton, was wegbleiben soll.",
+            "es": "Cómo responder: extensión, tono, qué omitir."
+          },
+          "placeholder": {
+            "en": "Three short sentences, no sport.",
+            "fr": "Trois phrases courtes, pas de sport.",
+            "de": "Drei kurze Sätze, kein Sport.",
+            "es": "Tres frases cortas, sin deportes."
+          }
+        },
+        {
+          "key": "premium",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "label": {
+            "en": "Include news agencies",
+            "fr": "Inclure les agences de presse",
+            "de": "Nachrichtenagenturen einbeziehen",
+            "es": "Incluir agencias de noticias"
+          },
+          "description": {
+            "en": "Premium web search (web_search_premium), billed per call by Mistral.",
+            "fr": "Recherche web premium (web_search_premium), facturée à l’appel par Mistral.",
+            "de": "Premium-Websuche (web_search_premium), von Mistral pro Aufruf abgerechnet.",
+            "es": "Búsqueda web premium (web_search_premium), facturada por llamada por Mistral."
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "key": "answer",
+          "type": "string",
+          "label": {
+            "en": "Answer",
+            "fr": "Réponse",
+            "de": "Antwort",
+            "es": "Respuesta"
+          }
+        },
+        {
+          "key": "sources",
+          "type": "string",
+          "label": {
+            "en": "Sources (one per line)",
+            "fr": "Sources (une par ligne)",
+            "de": "Quellen (eine pro Zeile)",
+            "es": "Fuentes (una por línea)"
+          }
+        }
+      ]
+    }
+  ]
+}
